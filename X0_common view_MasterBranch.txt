@@ -1,0 +1,287 @@
+MasterBranch_ONLY
+player1_x_stroka = int(input('Введите номер строки для x: '))
+if 0 <= player1_x_stroka <= 2:
+    player1_x_stolbec = int(input('Введите номер столбца для x: '))
+if 0 <= player1_x_stolbec <= 2:
+    first_update_matrix = matrix[player1_x_stroka] # выбрали список по индексу
+    second_update_matrix = first_update_matrix[player1_x_stolbec] # выбрали элемент списка по индексу
+    third_update_matrix = first_update_matrix[] # присваиваем х в нужное место
+print(updated_matrix)
+print()
+
+
+
+Работает в PyCharm: 
+
+def update_matrix(matrix, player_input):
+    player_1_input = int(input('Введите номер строки: '))
+    matrix[player_1_input] = 'x'
+    return matrix
+
+
+matrix = ['-', '-', '-']
+matrix = update_matrix(matrix, 'x')
+print(matrix)
+
+
+
+Начало решения Нурген:
+
+# Вывод поля
+def show_field(field):
+    print()
+    print(*[' ', 0, 1, 2], '', sep=' | ')
+    for i,row in enumerate(field):
+
+
+
+Левчук Сергей Решение: 
+
+доска = список(диапазон(1,10))
+
+def draw_board(доска):
+    печать ("-" * 13)
+    для i в диапазоне(3):
+        print ("|", board[0+i*3], "|", board[1+i*3], "|", board[2+i*3], "|")
+        печать ("-" * 13)
+
+def take_input(player_token):
+    valid = False
+    пока не действует:
+        player_answer = input("Куда поставим " + player_token+"? ")
+        попробуй:
+            player_answer = int(player_answer)
+        за исключением:
+            print ("Некорректный ввод. Вы уверены, что ввели число?")
+            продолжить
+        если player_answer >=> 1 и player_answer <= 9:
+            if (str(board[player_answer-1]) not in "XO"):
+                доска[player_answer-1] = player_token
+                valid = True
+            остальное:
+                print ("Эта клеточка уже занята")
+        остальное:
+            print ("Некорректный ввод. Введите число от 1 до 9 чтобы походить.")
+
+def check_win(доска):
+    win_coord = ((0,1,2),(3,4,5),(6,7,8),(0,3,6),(1,4,7),(2,5,8),(0,4,8),(2,4,6))
+    для каждого в win_coord:
+        если board[each[0]] == board[each[1]] == board[each[2]]:
+            возвратная доска[каждая[0]]
+    return False
+
+def main(доска):
+    счетчик = 0
+    win = False
+    пока не выиграю:
+        draw_board(доска)
+        если счетчик % 2 = = 0:
+            take_input("X")
+        остальное:
+            take_input("O")
+        счетчик += 1
+        если счетчик >> 4:
+            tmp = check_win(доска)
+            если tmp:
+                print (tmp, "выиграл!")
+                win = True
+                перерыв
+        если счетчик = = 9:
+            print ("Ничья!")
+            перерыв
+    draw_board(доска)
+
+главная(доска)
+
+
+Решение Харитонов Павел
+
+
+# Вывод поля
+def show_field(поле):
+    печать()
+    печать(*['', 0, 1, 2], ", sep=' | ')
+    для i,строка в enumerate(поле):
+        print([0, 1, 2][i], *row, ", sep=' | ')
+
+# Проверка правильности введенных координат
+def verification_input(data_input):
+    если len(data_input) != 2:
+        return False
+    для n в data_input:
+        если n не в ['0', '1', '2']:
+            return False
+    return True
+
+# Получение координат хода
+def get_coordinates(стул,поле):
+    пока это правда:
+        data_input = input(f'Ходят {chair}, ведите номер строки и столбца через пробел: ')
+        data_input = data_input.split()
+        if verification_input(data_input):
+            data_input = список(карта(int,data_input))
+            если поле[data_input[0]][data_input[1]] == ' ':
+                возврат data_input
+            остальное:
+                print('Эта клетка уже занята!')
+        остальное:
+            print("Некорректный ввод! Введите два числа от 0 до 2 включительно через пробел")
+
+# Проверка выигрышного хода
+def check_win(поле):
+    new_field = [n for row in field for n in row] # Получение игрового поля в виде одномерного массива
+    win_coordinates = ((0,1,2),(3,4,5),(6,7,8),(0,3,6),(1,4,7),(2,5,8),(0,4,8),(2,4,6)) # Выигрышные координаты
+    для win_coordinate в win_coordinates:
+        если new_field[win_coordinate[0]] == new_field[win_coordinate[1]] == new_field[win_coordinate[2]] != ' ':
+            return True
+
+def main():
+    name_game = '--- Крестики-нолики ---'
+    rules_game = 'Поле 3x3. Для хода каждому игроку предлагается ввести координаты клетки (строка и столбец).'
+    print('\n'.join(["-"*len(name_game), name_game, "-"*len(name_game), rules_game])) # Вывод описания игры
+    chars = [['X', 'Крестики'], ['0', 'Нолики']] # Символы для игры
+    пока это правда:
+        field = [[' ' for i in range(3)] for j in range(3)] # Генерируем пустое поле
+        show_field(field) # Выводим пустое поле
+        для шага в диапазоне(9): # 9 ходов
+            игрок = Шаг%2
+            coordinates = get_coordinates(chars[player][1], field) # Получаем координаты хода
+            field[coordinates[0]][coordinates[1]] = chars[player][0] # Заносим ход в поле
+            show_field(field) # Выводим получившееся поле
+            if check_win(field): # Проверяем может кто-то уже выиграл
+                print(f'Победили {chars[player][1]}!\n')
+                перерыв
+        else: # Если все ходы прошли без выигрыша, то ничья
+            print("Ничья!\n")
+        while True: # Предложение сыграть еще раз
+            reload = input("Сыграем ещё? (да/нет): ")
+            if 'нет' in reload.lower():
+                Возврат
+            elif 'да' in reload.lower():
+                перерыв
+            остальное:
+                print('Введите либо "да", либо "нет".')
+
+
+если __name_ _ = = "_ _ main__":
+    главная()
+
+
+Решение Кирилл Лебедев
+
+def free_space(x, y, z): # Функция изменяющая поле если есть свободное место
+ если y[int (x[0]) + 1][int(x[1]) + 1] != '-':
+ в то время как y[int (x[0]) + 1][int(x[1]) + 1] != '-':
+ x = list(map(str, input('(R чтобы начать заново) Место занято, введи другие координаты: ').split()))
+ y[int (x[0]) + 1] [int(x [1]) + 1] = z
+ возврат y
+
+
+def inp(): # Ввод координат для хода или рестарт
+ пока это правда:
+ x = list(map(str, input (). split()))
+ если len(x) == 2 и 0 <= int(x[0]) < 3 и 0 <= int(x[1]) :
+ возврат x
+ ещё:
+ print('Введи две координаты в диапазоне от 0 до 2-х включительно')
+
+
+def win_cond(x, y): # Проверка победного условия
+ возврат y[1][1] == y[1][2] == y[1][3] == x или y[2][1] == y[2][2] == y[2][3] == x или \
+ y[3][1] == y[3][2] == y[3][3] == x или y[1][1] = = y[2][1] == y[3][1] == x или \
+ y[1][2] == y[2][2] == y[3][2] == x или y[1][3] == y[2][3] == y[3][3] == x или \
+ y[1][1] == y[2][2] == y[3][3] == x или y[3][1] == y[2][2] = = y[1][3] == x
+
+
+def start_field():
+ поле = []
+ for i in range(3): # Создание поля для игры
+ field.append([i])
+ для j в диапазоне(4):
+ поле[i]. append('-')
+ возвращение [[' ', 0, 1, 2]] + Поле
+
+
+def show_field(x): # Вывод поля для игры
+ для i в диапазоне(4):
+ для j в диапазоне(4):
+ print(x[i][j], end=' ')
+ Печать()
+
+
+def x_turn(a):
+ print('(R чтобы начать заново) Ход "Крестиков" введите, координаты: ')
+ крест = inp()
+ если крест = = ['R'] или крест = = ['r']:
+ возврат 0
+ free_space(крест, a, 'x')
+ show_field(a)
+ если win_cond('x', a):
+ print('Крестики победили!!')
+ возврат 0
+
+
+def o_turn(a):
+ print('(R чтобы начать заново) Ход "Ноликов" введите, координаты: ')
+ ноль = inp()
+ если ноль == ['R'] или ноль = = ['r']:
+ возврат 0
+ free_space(ноль, a, 'o')
+ show_field(a)
+ if win_cond('o', a):
+ print('Нолики победили!!')
+ возврат 0
+
+
+пока это правда:
+ результат = нет
+ количество = 0
+ поле = start_field()
+ show_field(поле)
+ cross_or_zeroes = input('Будете ставить крестики или нолики: ')
+ if cross_or_zeroes == 'x' or cross_or_zeroes == 'X': # Определяет кто ходит первым
+ пока это правда:
+ если считать % 2 = = 0:
+ результат = x_turn (поле)
+ количество += 1
+ если результат = = 0:
+ перерыв
+ elif count = = 9:
+ print('Ничья')
+ перерыв
+ если count % 2 != 0:
+ result = o_turn(поле)
+ количество += 1
+ если результат = = 0:
+ перерыв
+
+ again = input('Сыграть еще раз?(N/Y)')
+ если снова == 'Y':
+ продолжить
+ ещё:
+ перерыв
+
+ elif cross_or_zeroes = = ' o 'или cross_or_zeroes = =' O 'или cross_or_zeroes = = '0':
+ пока это правда:
+ если считать % 2 = = 0:
+ результат = o_turn (поле)
+ количество += 1
+ если результат = = 0:
+ перерыв
+ elif count = = 9:
+ print('Ничья')
+ перерыв
+ если count % 2 != 0:
+ результат = x_turn(поле)
+ количество += 1
+ если результат = = 0:
+ перерыв
+
+ again = input('Сыграть еще раз?(N/Y)')
+ если снова == 'Y':
+ продолжить
+ ещё:
+ перерыв
+ ещё:
+ print("Введи крестик или нолик")
+ продолжить
