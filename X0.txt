@@ -1,0 +1,65 @@
+random_matrix = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+
+# Отображение игрового поля
+def show_field():
+    print(random_matrix[0:3])
+    print(random_matrix[3:6])
+    print(random_matrix[6:9])
+
+# Игра (отображение и сохранение изменений)
+def hod_igroka():
+    count = 0
+    while winner():
+        if count == 8:
+            print('Ничья!')
+            break
+        igrok = check_input()
+        index_rm = int(igrok) - 1
+        if count % 2 == 0:
+            random_matrix[index_rm] = 'X'
+        if count % 2 != 0:
+            random_matrix[index_rm] = '0'
+        count += 1
+        show_field()
+
+
+# Условия победы
+def winner():
+    s = ''
+    a, b, c = s.join(random_matrix[0:3]), s.join(random_matrix[3:6]), s.join(random_matrix[6:9])  # по строкам
+    d, e, f = s.join(random_matrix[0::3]), s.join(random_matrix[1::3]), s.join(random_matrix[2::3])  # по столбцам
+    g, h = s.join(random_matrix[0::4]), s.join(random_matrix[2:8:2])  # по диагоналям
+    if ('XXX' in a) or ('XXX' in b) or ('XXX' in c) or ('XXX' in d) \
+    or ('XXX' in e) or ('XXX' in f) or ('XXX' in g) or ('XXX' in h):
+        print('Победили крестики!')
+        return False
+    elif ('000' in a) or ('000' in b) or ('000' in c) or ('000' in d) \
+    or ('000' in e) or ('000' in f) or ('000' in g) or ('000' in h):
+        print('Победили нолики!')
+        return False
+    else:
+        return True
+
+
+# Проверка правильности вводя пользователя
+def check_input():
+    while True:
+        hod = input('Введите номер поля: ')
+        if not hod.isdigit():
+            print('Введите число!')
+            continue
+
+        if int(hod) not in range(1,10):
+            print('Введите число от 1 до 9!')
+            continue
+
+        if random_matrix[int(hod) - 1] == 'X' or random_matrix[int(hod) - 1] == '0':
+            print('Поле уже занято! Введите другой номер!')
+            continue
+
+        break
+    return hod
+
+
+show_field()
+hod_igroka()
